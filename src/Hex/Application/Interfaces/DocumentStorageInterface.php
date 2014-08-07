@@ -1,6 +1,6 @@
 <?php
 
-namespace Hex\Domain\Interfaces;
+namespace Hex\Application\Interfaces;
 
 interface DocumentStorageInterface {
     
