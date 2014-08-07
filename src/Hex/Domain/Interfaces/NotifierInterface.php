@@ -2,6 +2,6 @@
 
 namespace Hex\Domain\Interfaces;
 
-class NotifierInterface {
+interface NotifierInterface {
     
 }
