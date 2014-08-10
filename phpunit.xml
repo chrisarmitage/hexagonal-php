@@ -11,8 +11,11 @@
          syntaxCheck="false"
 >
     <testsuites>
-        <testsuite name="Application Test Suite">
+        <testsuite name="Framework Test Suite">
             <directory>./app/tests/</directory>
+        </testsuite>
+        <testsuite name="Application / Domain Test Suite">
+            <directory>./src/Hex/tests/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
