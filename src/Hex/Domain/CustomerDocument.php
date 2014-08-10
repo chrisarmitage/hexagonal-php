@@ -4,6 +4,8 @@ namespace Hex\Domain;
 
 class CustomerDocument
 {
+    use \Hex\Domain\Eventable;
+    
     protected $bookingReference;
     
     /**
@@ -18,6 +20,13 @@ class CustomerDocument
         
         $this->bookingReference = $bookingReference;
         
+        $this->raise(new \Hex\Domain\Events\CustomerDocumentAddedEvent($this));
+        
         return $this;
     }
+    
+    public function getBookingReference() {
+        return $this->bookingReference;
+    }
+
 }
