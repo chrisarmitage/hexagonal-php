@@ -15,3 +15,10 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+
+Route::get('test', 'HomeController@test');
+
+Event::listen('customer_document.added', function($event)
+{
+    echo "Event Fired: Document added for Booking {$event->getCustomerDocument()->getBookingReference()}<br />";
+});

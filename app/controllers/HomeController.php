@@ -20,5 +20,31 @@ class HomeController extends BaseController {
         return "EOL";
         //return View::make('hello');
 	}
+    
+    public function __construct(\Hex\Application\SimpleCommandBus $commandBus) {
+        $this->commandBus = $commandBus;
+    }
+    
+    public function test() {
+        echo "Call Started<hr />";
+        $bookingReference = 'H100';
+        $documentType = 1;
+        $documentPath = '/tmp/H100-1.pdf';
+
+        try {
+            for ($n = 1; $n <=4; $n++) {
+                echo "<strong>Adding doc {$n}</strong></br>";
+                $addCustomerDocumentCommand = new \Hex\Application\Commands\AddCustomerDocumentCommand(
+                        $bookingReference . $n, $documentType, $documentPath);
+
+                $this->commandBus->execute($addCustomerDocumentCommand);
+            }
+
+        } catch (\PhantomException $e) {
+            return "Error: {$e->getMessage()}";
+        }
+        
+        return '<hr />Call Completed</hr>';
+    }
 
 }
