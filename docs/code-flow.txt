@@ -1,0 +1,95 @@
+@startuml
+' Generated using PlantUML
+' Probably isn't up to `correct` UML standards, but it helps me understand whats going on
+
+actor Request
+
+box "Framework (Laravel)"
+  participant LaravelCore
+  participant HomeController
+  participant EventListener
+end box
+
+box "Framework (Other)"
+  participant "Illuminate\Container\Container" as IlluminateContainerContainer
+  participant "Illuminate\Events\Dispatcher" as IlluminateEventsDispatcher
+end box
+
+box "Application (Scaffold)"
+  participant SimpleCommandBus
+  participant CommandInflector
+  participant Dispatcher
+end box
+
+box "Application (Code)"
+  participant "AddCustomerDocumentCommand (POPO)" as AddCustomerDocumentCommand
+  participant AddCustomerDocumentHandler
+end box
+
+box "Domain"
+  participant CustomerDocument
+  participant Eventable
+  participant CustomerDocumentAddedEvent
+end box
+
+box "Unknown"
+end box
+
+Request -> LaravelCore: GET /test
+LaravelCore -> HomeController: test()
+
+  activate SimpleCommandBus
+IlluminateContainerContainer --> SimpleCommandBus: IoC Constructor
+  activate IlluminateContainerContainer
+CommandInflector --> SimpleCommandBus: IoC Constructor
+  activate CommandInflector
+SimpleCommandBus --> HomeController: IoC Constructor
+
+AddCustomerDocumentCommand --> HomeController: new
+  activate AddCustomerDocumentCommand
+
+HomeController -> SimpleCommandBus: execute()
+
+SimpleCommandBus -> SimpleCommandBus: resolveHandler()
+SimpleCommandBus -> CommandInflector: getHandlerClass()
+CommandInflector -> SimpleCommandBus : Class name s/Command/Handler
+
+SimpleCommandBus -> IlluminateContainerContainer: make()
+
+IlluminateEventsDispatcher --> Dispatcher
+  activate IlluminateEventsDispatcher
+Dispatcher --> AddCustomerDocumentHandler
+  activate Dispatcher
+AddCustomerDocumentHandler --> IlluminateContainerContainer
+  activate AddCustomerDocumentHandler
+
+IlluminateContainerContainer -> SimpleCommandBus
+
+SimpleCommandBus -> AddCustomerDocumentHandler: handle()
+
+Eventable --> CustomerDocument: use
+CustomerDocument --> AddCustomerDocumentHandler: new
+  activate CustomerDocument
+
+AddCustomerDocumentHandler -> CustomerDocument: setBookingReference()
+CustomerDocument -> CustomerDocument: Constraint / Booking Ref Set
+CustomerDocumentAddedEvent --> CustomerDocument
+  activate CustomerDocumentAddedEvent
+CustomerDocument -> CustomerDocument: raise(event)
+
+AddCustomerDocumentHandler -> Dispatcher: dispatch(events)
+
+Dispatcher -> EventListener
+CustomerDocumentAddedEvent --> EventListener
+  deactivate CustomerDocumentAddedEvent
+Dispatcher <- EventListener
+
+Dispatcher -> AddCustomerDocumentHandler
+
+AddCustomerDocumentHandler -> SimpleCommandBus
+
+SimpleCommandBus -> HomeController
+
+HomeController -> Request
+
+@enduml
