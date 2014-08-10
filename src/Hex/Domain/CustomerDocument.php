@@ -15,7 +15,7 @@ class CustomerDocument
      */
     public function setBookingReference($bookingReference) {
         if ($bookingReference == '') {
-            throw new Hex\Domain\DomainException("Booking Reference cannot be empty");
+            throw new \Hex\Domain\DomainException("Booking Reference cannot be empty");
         }
         
         $this->bookingReference = $bookingReference;
