@@ -29,7 +29,7 @@ class HomeController extends BaseController {
         echo "Call Started<hr />";
         $bookingReference = 'H100';
         $documentType = 1;
-        $documentPath = '/tmp/H100-1.pdf';
+        $documentPath = '/tmp/Invoice.pdf';
 
         try {
             for ($n = 1; $n <=4; $n++) {

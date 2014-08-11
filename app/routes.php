@@ -20,5 +20,10 @@ Route::get('test', 'HomeController@test');
 
 Event::listen('customer_document.added', function($event)
 {
-    echo "Event Fired: Document added for Booking {$event->getCustomerDocument()->getBookingReference()} (type {$event->getCustomerDocument()->getDocumentType()}, at {$event->getCustomerDocument()->getDocumentPath()})<br />";
+    echo "&nbsp;&nbsp;<strong>Event Fired</strong>: Document added for Booking {$event->getCustomerDocument()->getBookingReference()} (type {$event->getCustomerDocument()->getDocumentType()}, at {$event->getCustomerDocument()->getDocumentPath()})<br />";
+});
+
+Event::listen('customer_folder.updated', function($event)
+{
+    echo "&nbsp;&nbsp;<strong>Event Fired</strong>: Customer folder updated {$event->getBookingReference()}<br />";
 });
