@@ -17,5 +17,8 @@
         <testsuite name="Application / Domain Test Suite">
             <directory>./src/Hex/tests/</directory>
         </testsuite>
+        <testsuite name="Pre-vendor Test Suite">
+            <directory>./pre-vendor/</directory>
+        </testsuite>
     </testsuites>
 </phpunit>
