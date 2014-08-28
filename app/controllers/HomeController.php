@@ -21,8 +21,11 @@ class HomeController extends BaseController {
         //return View::make('hello');
 	}
     
-    public function __construct(\Hex\Application\SimpleCommandBus $commandBus) {
+    public function __construct(
+            \Hex\Application\SimpleCommandBus $commandBus,
+            \Hex\Application\Dispatcher $dispatcher) {
         $this->commandBus = $commandBus;
+        $this->dispatcher = $dispatcher;
     }
     
     public function test() {
@@ -30,9 +33,11 @@ class HomeController extends BaseController {
         $bookingReference = 'H100';
         $documentType = 1;
         $documentPath = '/tmp/Invoice.pdf';
+        
+        $docsToAdd = mt_rand(4, 8);
 
         try {
-            for ($n = 1; $n <=4; $n++) {
+            for ($n = 1; $n <= $docsToAdd; $n++) {
                 echo "<strong>Adding doc {$n}</strong></br>";
                 $addCustomerDocumentCommand = new \Hex\Application\Commands\AddCustomerDocumentCommand(
                         $bookingReference . $n, $documentType, $documentPath);
@@ -43,6 +48,10 @@ class HomeController extends BaseController {
         } catch (\PhantomException $e) {
             return "Error: {$e->getMessage()}";
         }
+        
+        $completedEvent = new \Hex\Application\Events\AddCustomerDocumentsCompleteEvent($docsToAdd);
+        
+        $this->dispatcher->dispatch(array($completedEvent));
         
         return '<hr />Call Completed</hr>';
     }

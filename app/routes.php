@@ -27,3 +27,8 @@ Event::listen('customer_folder.updated', function($event)
 {
     echo "&nbsp;&nbsp;<strong>Event Fired</strong>: Customer folder updated {$event->getBookingReference()}<br />";
 });
+
+Event::listen('add_customer_documents.complete', function($event)
+{
+    echo "&nbsp;&nbsp;<strong>Event Fired</strong>: Add Customer Documents completed - {$event->getNumberOfDocumentsAdded()} added<br />";
+});
