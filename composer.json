@@ -18,6 +18,7 @@
         ],
         "psr-0": {
             "Hex": "src/",
+            "CA": "src/",
             "ChrisArmitage": "pre-vendor/src/"
         }
     },
