@@ -4,5 +4,5 @@ namespace Hex\Application\Interfaces;
 
 interface NotifierInterface
 {
-    public function notify(Message $message);
+    public function notify($message);
 }
