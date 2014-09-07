@@ -1,6 +1,6 @@
 <?php
 
-namespace Hex\Application; 
+namespace Hex\Application;
 
 use Illuminate\Events\Dispatcher as LaravelDispatcher;
 
@@ -23,4 +23,4 @@ class Dispatcher {
             $this->dispatcher->fire($event->name(), [$event]);
         }
     }
-} 
+}
