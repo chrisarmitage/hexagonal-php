@@ -52,5 +52,4 @@ class CustomerDocument
     public function getBookingReference() {
         return $this->bookingReference;
     }
-
 }

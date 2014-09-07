@@ -15,5 +15,4 @@ class CustomerDocumentFactory
         
         return $customerDocument;
     }
-
 }

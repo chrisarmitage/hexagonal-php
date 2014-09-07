@@ -14,9 +14,9 @@ class CustomerDocumentTest extends PHPUnit_Framework_Testcase
         $customerDocument->setBookingReference('ValidReference');
         
         $this->assertEquals(
-                'ValidReference',
-                $customerDocument->getBookingReference()
-                );
+            'ValidReference',
+            $customerDocument->getBookingReference()
+        );
     }
     
     /**

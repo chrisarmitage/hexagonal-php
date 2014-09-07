@@ -2,6 +2,7 @@
 
 namespace Hex\Application\Interfaces;
 
-interface DocumentStorageInterface {
+interface DocumentStorageInterface
+{
     
 }

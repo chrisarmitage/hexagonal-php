@@ -8,7 +8,10 @@ class SimpleCommandBus implements \Hex\Domain\Interfaces\CommandBus
     
     protected $inflector;
     
-    function __construct(\Illuminate\Container\Container $container, \Hex\Application\CommandInflector $inflector) {
+    public function __construct(
+        \Illuminate\Container\Container $container,
+        \Hex\Application\CommandInflector $inflector)
+    {
         $this->container = $container;
         $this->inflector = $inflector;
     }

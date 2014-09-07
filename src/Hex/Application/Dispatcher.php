@@ -4,8 +4,8 @@ namespace Hex\Application;
 
 use Illuminate\Events\Dispatcher as LaravelDispatcher;
 
-class Dispatcher {
-
+class Dispatcher
+{
     /**
      * @var \Illuminate\Events\Dispatcher
      */

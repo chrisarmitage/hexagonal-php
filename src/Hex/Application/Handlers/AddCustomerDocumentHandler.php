@@ -14,7 +14,11 @@ class AddCustomerDocumentHandler implements \Hex\Application\Interfaces\Handler
     
     protected $documentStorage;
     
-    function __construct(Dispatcher $dispatcher, Repository $repository, DocumentStorage $documentStorage) {
+    public function __construct(
+        Dispatcher $dispatcher,
+        Repository $repository,
+        DocumentStorage $documentStorage)
+    {
         $this->dispatcher = $dispatcher;
         $this->repository = $repository;
         $this->documentStorage = $documentStorage;

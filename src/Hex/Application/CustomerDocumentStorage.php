@@ -8,7 +8,7 @@ class CustomerDocumentStorage
 {
     protected $fileStorageEngine;
     
-    function __construct(\Gaufrette\Filesystem $fileStorageEngine) {
+    public function __construct(\Gaufrette\Filesystem $fileStorageEngine) {
         $this->fileStorageEngine = $fileStorageEngine;
     }
 
@@ -19,7 +19,7 @@ class CustomerDocumentStorage
         // $targetFilename = str_replace('/tmp', "/storage/{$customerDocument->getBookingReference()}", $sourceFilename);
         
         $contents = "Invoice for {$customerDocument->getBookingReference()}\n";
-        $this->fileStorageEngine->write("{$customerDocument->getBookingReference()}-invoice.txt", $contents);
+        $this->fileStorageEngine->write("{$customerDocument->getBookingReference()}-invoice.txt", $contents, true);
         
         // echo "Moving {$sourceFilename} to {$targetFilename}<br />";
     }

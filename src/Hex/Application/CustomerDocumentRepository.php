@@ -20,11 +20,13 @@ class CustomerDocumentRepository
 
     
     public function add(CustomerDocument $customerDocument) {
-        $lastInsertID = $this->gateway->persist(array(
-            $customerDocument->getBookingReference(),
-            $customerDocument->getDocumentType(),
-            $customerDocument->getDocumentPath(),
-        ));
+        $lastInsertID = $this->gateway->persist(
+            array(
+                $customerDocument->getBookingReference(),
+                $customerDocument->getDocumentType(),
+                $customerDocument->getDocumentPath(),
+            )
+        );
         
         return $lastInsertID;
     }
@@ -41,5 +43,4 @@ class CustomerDocumentRepository
         }
         return $customerDocuments;
     }
-            
 }

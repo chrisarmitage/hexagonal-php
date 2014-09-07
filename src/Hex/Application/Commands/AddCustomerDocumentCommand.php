@@ -27,5 +27,4 @@ class AddCustomerDocumentCommand
     public function getDocumentPath() {
         return $this->documentPath;
     }
-
 }
