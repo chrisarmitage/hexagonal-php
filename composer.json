@@ -9,6 +9,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
+        "squizlabs/php_codesniffer": "2.0.*",
         "satooshi/php-coveralls": "dev-master"
     },
     "autoload": {
@@ -41,5 +42,6 @@
     "config": {
         "preferred-install": "dist"
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
