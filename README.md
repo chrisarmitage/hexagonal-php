@@ -1,6 +1,6 @@
 ## Attempt at Hexagonal Architecture in PHP
 
-[![Build Status](https://travis-ci.org/ChrisArmitage/hexagonal-php.svg)](https://travis-ci.org/ChrisArmitage/hexagonal-php)
+[![Build Status](https://travis-ci.org/ChrisArmitage/hexagonal-php.svg)](https://travis-ci.org/ChrisArmitage/hexagonal-php) [![Coverage Status](https://img.shields.io/coveralls/ChrisArmitage/hexagonal-php.svg)](https://coveralls.io/r/ChrisArmitage/hexagonal-php)
 
 This code is may cause distress in those that view it, it's an ongoing task to help me assess this design
 
