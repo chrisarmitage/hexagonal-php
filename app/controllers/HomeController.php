@@ -39,7 +39,7 @@ class HomeController extends BaseController
                 $this->commandBus->execute($addCustomerDocumentCommand);
             }
 
-        } catch (\PhantomException $e) {
+        } catch (\ApplicationException $e) {
             return "Error: {$e->getMessage()}";
         }
         
