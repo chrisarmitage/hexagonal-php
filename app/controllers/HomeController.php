@@ -13,19 +13,26 @@ class HomeController extends BaseController
         $this->dispatcher = $dispatcher;
     }
     
-    public function test() {
+    public function addInvoicesToAllCustomers() {
         echo "Call Started<hr />";
-        $bookingReference = 'H100';
+        
+        $customerRepository = new \Hex\Application\CustomerRepository(
+            new \Hex\Application\CustomerGateway(), 
+            new \Hex\Application\CustomerFactory()
+        );
+        
+        $allCustomers = $customerRepository->findAll();
+        
         $documentType = 1;
+        // Use a PDF generator
         $documentPath = '/tmp/Invoice.pdf';
         
-        $docsToAdd = mt_rand(4, 8);
-
         try {
-            for ($n = 1; $n <= $docsToAdd; $n++) {
-                echo "<strong>Adding doc {$n}</strong></br>";
+            foreach ($allCustomers as $customer) {
+                echo "<strong>Adding doc for {$customer->getName()}</strong></br>";
                 $addCustomerDocumentCommand = new \Hex\Application\Commands\AddCustomerDocumentCommand(
-                    $bookingReference . $n, $documentType,
+                    $customer->getReference(),
+                    $documentType,
                     $documentPath
                 );
 
@@ -36,7 +43,7 @@ class HomeController extends BaseController
             return "Error: {$e->getMessage()}";
         }
         
-        $completedEvent = new \Hex\Application\Events\AddCustomerDocumentsCompleteEvent($docsToAdd);
+        $completedEvent = new \Hex\Application\Events\AddCustomerDocumentsCompleteEvent(count($allCustomers));
         
         $this->dispatcher->dispatch(array($completedEvent));
         

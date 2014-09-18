@@ -16,7 +16,7 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
-Route::get('test', 'HomeController@test');
+Route::get('addInvoicesToAllCustomers', 'HomeController@addInvoicesToAllCustomers');
 
 Event::listen('customer_document.added', function($event)
 {
