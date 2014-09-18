@@ -24,8 +24,6 @@ class CustomerDocument
         
         $this->bookingReference = $bookingReference;
         
-        $this->raise(new \Hex\Domain\Events\CustomerDocumentAddedEvent($this));
-        
         return $this;
     }
 

@@ -34,7 +34,11 @@ class AddCustomerDocumentHandler implements \Hex\Application\Interfaces\Handler
         
         $lastInsertID = $this->repository->add($customerDocument);
         
-        $this->documentStorage->addToFolder($customerDocument);
+        $documentPath = $this->documentStorage->addToFolder($customerDocument);
+        
+        $customerDocument->setDocumentPath($documentPath);
+        
+        $customerDocument->raise(new \Hex\Domain\Events\CustomerDocumentAddedEvent($customerDocument));
         
         $customerDocument->raise(new \Hex\Domain\Events\CustomerDocumentFolderUpdatedEvent($customerDocument->getBookingReference()));
         

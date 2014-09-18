@@ -12,16 +12,21 @@ class CustomerDocumentStorage
         $this->fileStorageEngine = $fileStorageEngine;
     }
 
+    /**
+     * @param \Hex\Domain\CustomerDocument $customerDocument
+     * @return string The path where the document was saved
+     */
     public function addToFolder(Document $customerDocument) {
         $sourceFilename = $customerDocument->getDocumentPath();
         
         // Dirty way of geting the filename
         $paths = explode('/', $sourceFilename);
         $fileName = array_pop($paths);
+        $pathName = "{$customerDocument->getBookingReference()}-{$fileName}";
         
         $contents = "Invoice for {$customerDocument->getBookingReference()}\n";
-        $this->fileStorageEngine->write("{$customerDocument->getBookingReference()}-{$fileName}", $contents, true);
+        $this->fileStorageEngine->write($pathName, $contents, true);
         
-        // echo "Moving {$sourceFilename} to {$targetFilename}<br />";
+        return $pathName;
     }
 }
