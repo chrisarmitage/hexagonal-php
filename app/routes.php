@@ -17,6 +17,7 @@ Route::get('/', function()
 });
 
 Route::get('addInvoicesToAllCustomers', 'HomeController@addInvoicesToAllCustomers');
+Route::get('addNoticesByCategory/{category}', 'HomeController@addNoticesByCategory');
 
 Event::listen('customer_document.added', function($event)
 {

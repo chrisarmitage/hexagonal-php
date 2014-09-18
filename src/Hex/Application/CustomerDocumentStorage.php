@@ -15,11 +15,12 @@ class CustomerDocumentStorage
     public function addToFolder(Document $customerDocument) {
         $sourceFilename = $customerDocument->getDocumentPath();
         
-        // Don't actually gen the PDF yet
-        // $targetFilename = str_replace('/tmp', "/storage/{$customerDocument->getBookingReference()}", $sourceFilename);
+        // Dirty way of geting the filename
+        $paths = explode('/', $sourceFilename);
+        $fileName = array_pop($paths);
         
         $contents = "Invoice for {$customerDocument->getBookingReference()}\n";
-        $this->fileStorageEngine->write("{$customerDocument->getBookingReference()}-invoice.txt", $contents, true);
+        $this->fileStorageEngine->write("{$customerDocument->getBookingReference()}-{$fileName}", $contents, true);
         
         // echo "Moving {$sourceFilename} to {$targetFilename}<br />";
     }
