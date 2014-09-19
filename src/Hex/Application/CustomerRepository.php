@@ -20,8 +20,13 @@ class CustomerRepository
         throw new ApplicationException('Method not implemented');
     }
     
-    public function findByCustomerID($id) {
-        return $this->findAll()[$id];
+    public function findByCustomerId($id) {
+        return array_filter(
+            $this->findAll(),
+            function ($customer) use ($id) {
+                return $customer->getId() == $id;
+            }
+        );
     }
     
     public function findByCategory($category) {
