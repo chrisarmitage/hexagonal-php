@@ -17,76 +17,54 @@ class CustomerRepositoryTest extends PHPUnit_Framework_Testcase
         $this->assertNotNull($customerRepository);
     }
     
-    public function testGatewayAndFactoryAreCalled() {
-        $customerData = array(
-            'id' => '1',
-            'name' => 'Cust Name',
-            'reference' => 'Ref',
-            'category' => 'Cat',
-        );
-        $customer = json_decode(json_encode($customerData));
-        
-        $gateway = M::mock('\Hex\Application\CustomerGateway');
-        $gateway->shouldReceive('retrieveAll')
-            ->once()
-            ->andReturn(array($customerData));
-        
-        $factory = M::mock('\Hex\Application\CustomerFactory');
-        $factory->shouldReceive('make')
-            ->once()
-            ->with($customerData)
-            ->andReturn($customer);
-        
-        $customerRepository = new \Hex\Application\CustomerRepository($gateway, $factory);
-        
-        $allCustomers = $customerRepository->findAll();
-        
-        $this->assertEquals(
-            $customer,
-            $allCustomers[0]
-            );
-    }
-    
-    public function testCanFindById() {
-        $customerData = array(
+    protected function setUp() {
+        $customerData = json_decode(json_encode(array(
             array(
                 'id' => '1',
                 'name' => 'Cust Name',
-                'reference' => 'Ref',
-                'category' => 'Cat',
+                'reference' => 'Ref1',
+                'category' => 'Cat1',
             ),
             array(
                 'id' => '2',
                 'name' => 'Cust Name',
-                'reference' => 'Ref',
-                'category' => 'Cat',
+                'reference' => 'Ref2',
+                'category' => 'Cat2',
             ),
-        );
-        $customer1 = M::mock('\Hex\Domain\Customer');
-        $customer1->shouldReceive('getId')
-            ->andReturn(1);
-        $customer2 = M::mock('\Hex\Domain\Customer');
-        $customer2->shouldReceive('getId')
-            ->andReturn(2);
+            array(
+                'id' => '3',
+                'name' => 'Cust Name',
+                'reference' => 'Ref3',
+                'category' => 'Cat2',
+            ),
+        )));
+        
+        foreach ($customerData as $key => $data) {
+            $customer[$key] = M::mock('\Hex\Domain\Customer');
+            $customer[$key]->shouldReceive('getId')
+                ->andReturn($customerData[$key]->id);
+            $customer[$key]->shouldReceive('getReference')
+                ->andReturn($customerData[$key]->reference);
+            $customer[$key]->shouldReceive('getCategory')
+                ->andReturn($customerData[$key]->category);
+        }
         
         $gateway = M::mock('\Hex\Application\CustomerGateway');
         $gateway->shouldReceive('retrieveAll')
-            ->once()
             ->andReturn($customerData);
         
         $factory = M::mock('\Hex\Application\CustomerFactory');
-        $factory->shouldReceive('make')
-            ->once()
-            ->with($customerData[0])
-            ->andReturn($customer1);
-        $factory->shouldReceive('make')
-            ->once()
-            ->with($customerData[1])
-            ->andReturn($customer2);
+        foreach ($customerData as $key => $data) {
+            $factory->shouldReceive('make')
+                ->with($customerData[$key])
+                ->andReturn($customer[$key]);
+        }
         
-        $customerRepository = new \Hex\Application\CustomerRepository($gateway, $factory);
-        
-        $foundCustomers = $customerRepository->findByCustomerId(1);
+        $this->mockRepository = new \Hex\Application\CustomerRepository($gateway, $factory);
+    }
+    
+    public function testCanFindCustomerById() {
+        $foundCustomers = $this->mockRepository->findByCustomerId(1);
         
         $this->assertCount(1, $foundCustomers);
         $this->assertEquals(
@@ -95,53 +73,36 @@ class CustomerRepositoryTest extends PHPUnit_Framework_Testcase
             );
     }
     
-    public function testCanFindByCategory() {
-        $customerData = array(
-            array(
-                'id' => '1',
-                'name' => 'Cust Name',
-                'reference' => 'Ref',
-                'category' => 'Cat',
-            ),
-            array(
-                'id' => '2',
-                'name' => 'Cust Name',
-                'reference' => 'Ref',
-                'category' => 'Cat',
-            ),
-        );
-        $customer1 = M::mock('\Hex\Domain\Customer');
-        $customer1->shouldReceive('getCategory')
-            ->andReturn('Cat');
-        $customer2 = M::mock('\Hex\Domain\Customer');
-        $customer2->shouldReceive('getCategory')
-            ->andReturn('Ego');
+    public function testCanFindCustomerByReference() {
+        $foundCustomers = $this->mockRepository->findByReference('Ref2');
         
-        $gateway = M::mock('\Hex\Application\CustomerGateway');
-        $gateway->shouldReceive('retrieveAll')
-            ->andReturn($customerData);
-        
-        $factory = M::mock('\Hex\Application\CustomerFactory');
-        $factory->shouldReceive('make')
-            ->with($customerData[0])
-            ->andReturn($customer1);
-        $factory->shouldReceive('make')
-            ->with($customerData[1])
-            ->andReturn($customer2);
-        
-        $customerRepository = new \Hex\Application\CustomerRepository($gateway, $factory);
-        
-        $foundCustomers = $customerRepository->findByCategory('Cat');
         $this->assertCount(1, $foundCustomers);
         $this->assertEquals(
-            'Cat',
+            'Ref2',
+            $foundCustomers[0]->getReference()
+            );
+    }
+    
+    public function testCanFindSingleCustomerByCategory() {
+        $foundCustomers = $this->mockRepository->findByCategory('Cat1');
+        
+        $this->assertCount(1, $foundCustomers);
+        $this->assertEquals(
+            'Cat1',
             $foundCustomers[0]->getCategory()
             );
+    }
+    
+    public function testCanFindMultipleCustomersByCategory() {
+        $foundCustomers = $this->mockRepository->findByCategory('Cat2');
         
-        $foundCustomers = $customerRepository->findByCategory('Ego');
-        $this->assertCount(1, $foundCustomers);
+        $this->assertCount(2, $foundCustomers);
         $this->assertEquals(
-            'Ego',
+            'Cat2',
+            $foundCustomers[0]->getCategory()
+            );
+        $this->assertEquals(
+            'Cat2',
             $foundCustomers[1]->getCategory()
             );
     }

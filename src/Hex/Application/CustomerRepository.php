@@ -32,20 +32,24 @@ class CustomerRepository
     }
     
     public function findByCategory($category) {
-        return array_filter(
-            $this->findAll(),
+        return array_values(
+            array_filter(
+                $this->findAll(),
             function (Customer $customer) use ($category) {
                 return $customer->getCategory() == $category;
-            }
+                }
+            )
         );
     }
     
     public function findByReference($reference) {
-        return array_filter(
-            $this->findAll(),
-            function (Customer $customer) use ($reference) {
-                return $customer->getReference() == $reference;
-            }
+        return array_values(
+            array_filter(
+                $this->findAll(),
+                function (Customer $customer) use ($reference) {
+                    return $customer->getReference() == $reference;
+                }
+            )
         );
     }
     
