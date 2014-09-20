@@ -11,9 +11,9 @@ class CustomerDocumentRepository
     protected $factory;
     
     public function __construct(
-            \Hex\InMemoryPersistence $gateway,
-            \Hex\Application\CustomerDocumentFactory $factory
-            ) {
+        \Hex\Application\CustomerDocumentGateway $gateway,
+        \Hex\Application\CustomerDocumentFactory $factory
+    ) {
         $this->gateway = $gateway;
         $this->factory = $factory;
     }
@@ -31,8 +31,31 @@ class CustomerDocumentRepository
         return $lastInsertID;
     }
     
-    public function findByCustomerDocumentID($id) {
-        return $this->findAll()[$id];
+    public function findByDocumentId($id) {
+        return array_filter(
+            $this->findAll(),
+            function (CustomerDocument $customerDocument) use ($id) {
+                return $customerDocument->getId() == $id;
+            }
+        );
+    }
+    
+    public function findByDocumentType($documentType) {
+        return array_filter(
+            $this->findAll(),
+            function (CustomerDocument $customerDocument) use ($documentType) {
+                return $customerDocument->getDocumentType() == $documentType;
+            }
+        );
+    }
+    
+    public function findByReference($reference) {
+        return array_filter(
+            $this->findAll(),
+            function (CustomerDocument $customerDocument) use ($reference) {
+                return $customerDocument->getBookingReference() == $reference;
+            }
+        );
     }
     
     public function findAll() {

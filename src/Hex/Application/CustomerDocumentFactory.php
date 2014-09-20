@@ -7,11 +7,11 @@ use \Hex\Domain\CustomerDocument as CustomerDocument;
 class CustomerDocumentFactory
 {
     public function make($customerDocumentData) {
-        $customerDocument = new CustomerDocument();
-        
-        $customerDocument->setBookingReference($customerDocumentData[0])
-                ->setDocumentType($customerDocumentData[1])
-                ->setDocumentPath($customerDocumentData[2]);
+        $customerDocument = new CustomerDocument(
+            $customerDocumentData->reference_fk,
+            $customerDocumentData->type,
+            $customerDocumentData->path
+        );
         
         return $customerDocument;
     }
