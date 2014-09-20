@@ -32,29 +32,35 @@ class CustomerDocumentRepository
     }
     
     public function findByDocumentId($id) {
-        return array_filter(
-            $this->findAll(),
-            function (CustomerDocument $customerDocument) use ($id) {
-                return $customerDocument->getId() == $id;
-            }
+        return array_values(
+            array_filter(
+                $this->findAll(),
+                function (CustomerDocument $customerDocument) use ($id) {
+                    return $customerDocument->getId() == $id;
+                }
+            )
         );
     }
     
     public function findByDocumentType($documentType) {
-        return array_filter(
-            $this->findAll(),
-            function (CustomerDocument $customerDocument) use ($documentType) {
-                return $customerDocument->getDocumentType() == $documentType;
-            }
+        return array_values(
+            array_filter(
+                $this->findAll(),
+                function (CustomerDocument $customerDocument) use ($documentType) {
+                    return $customerDocument->getDocumentType() == $documentType;
+                }
+            )
         );
     }
     
     public function findByReference($reference) {
-        return array_filter(
-            $this->findAll(),
-            function (CustomerDocument $customerDocument) use ($reference) {
-                return $customerDocument->getBookingReference() == $reference;
-            }
+        return array_values(
+            array_filter(
+                $this->findAll(),
+                function (CustomerDocument $customerDocument) use ($reference) {
+                    return $customerDocument->getBookingReference() == $reference;
+                }
+            )
         );
     }
     
