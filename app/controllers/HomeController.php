@@ -1,5 +1,7 @@
 <?php
 
+use Hex\Application\ApplicationException as ApplicationException;
+
 class HomeController extends BaseController
 {
     protected $commandBus;
@@ -41,7 +43,7 @@ class HomeController extends BaseController
                 $this->commandBus->execute($addCustomerDocumentCommand);
             }
 
-        } catch (\ApplicationException $e) {
+        } catch (ApplicationException $e) {
             return "Error: {$e->getMessage()}";
         }
         
@@ -73,7 +75,7 @@ class HomeController extends BaseController
                 $this->commandBus->execute($addCustomerDocumentCommand);
             }
 
-        } catch (\ApplicationException $e) {
+        } catch (ApplicationException $e) {
             return "Error: {$e->getMessage()}";
         }
         
