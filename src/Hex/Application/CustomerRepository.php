@@ -35,8 +35,8 @@ class CustomerRepository
         return array_values(
             array_filter(
                 $this->findAll(),
-            function (Customer $customer) use ($category) {
-                return $customer->getCategory() == $category;
+                function (Customer $customer) use ($category) {
+                    return $customer->getCategory() == $category;
                 }
             )
         );

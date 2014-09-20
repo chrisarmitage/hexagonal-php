@@ -1,6 +1,8 @@
 <?php
 
-class CustomerDocumentTest extends PHPUnit_Framework_Testcase
+namespace Hex\Tests;
+
+class CustomerDocumentTest extends \PHPUnit_Framework_Testcase
 {
     public function testClassIsAvailable() {
         $customerDocument = new \Hex\Domain\CustomerDocument('1', '2', '3');

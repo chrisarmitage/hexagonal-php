@@ -40,7 +40,11 @@ class AddCustomerDocumentHandler implements \Hex\Application\Interfaces\Handler
         
         $customerDocument->raise(new \Hex\Domain\Events\CustomerDocumentAddedEvent($customerDocument));
         
-        $customerDocument->raise(new \Hex\Domain\Events\CustomerDocumentFolderUpdatedEvent($customerDocument->getBookingReference()));
+        $customerDocument->raise(
+            new \Hex\Domain\Events\CustomerDocumentFolderUpdatedEvent(
+                $customerDocument->getBookingReference()
+            )
+        );
         
         $this->dispatcher->dispatch($customerDocument->flushEvents());
     }

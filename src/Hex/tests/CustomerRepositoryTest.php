@@ -1,8 +1,10 @@
 <?php
 
+namespace Hex\Tests;
+
 use \Mockery as M;
 
-class CustomerRepositoryTest extends PHPUnit_Framework_Testcase
+class CustomerRepositoryTest extends \PHPUnit_Framework_Testcase
 {
     protected function tearDown() {
         M::close();
@@ -18,26 +20,30 @@ class CustomerRepositoryTest extends PHPUnit_Framework_Testcase
     }
     
     protected function setUp() {
-        $customerData = json_decode(json_encode(array(
-            array(
-                'id' => '1',
-                'name' => 'Cust Name',
-                'reference' => 'Ref1',
-                'category' => 'Cat1',
-            ),
-            array(
-                'id' => '2',
-                'name' => 'Cust Name',
-                'reference' => 'Ref2',
-                'category' => 'Cat2',
-            ),
-            array(
-                'id' => '3',
-                'name' => 'Cust Name',
-                'reference' => 'Ref3',
-                'category' => 'Cat2',
-            ),
-        )));
+        $customerData = json_decode(
+            json_encode(
+                array(
+                    array(
+                        'id' => '1',
+                        'name' => 'Cust Name',
+                        'reference' => 'Ref1',
+                        'category' => 'Cat1',
+                    ),
+                    array(
+                        'id' => '2',
+                        'name' => 'Cust Name',
+                        'reference' => 'Ref2',
+                        'category' => 'Cat2',
+                    ),
+                    array(
+                        'id' => '3',
+                        'name' => 'Cust Name',
+                        'reference' => 'Ref3',
+                        'category' => 'Cat2',
+                    ),
+                )
+            )
+        );
         
         foreach ($customerData as $key => $data) {
             $customer[$key] = M::mock('\Hex\Domain\Customer');
@@ -70,7 +76,7 @@ class CustomerRepositoryTest extends PHPUnit_Framework_Testcase
         $this->assertEquals(
             1,
             $foundCustomers[0]->getId()
-            );
+        );
     }
     
     public function testCanFindCustomerByReference() {
@@ -80,7 +86,7 @@ class CustomerRepositoryTest extends PHPUnit_Framework_Testcase
         $this->assertEquals(
             'Ref2',
             $foundCustomers[0]->getReference()
-            );
+        );
     }
     
     public function testCanFindSingleCustomerByCategory() {
@@ -90,7 +96,7 @@ class CustomerRepositoryTest extends PHPUnit_Framework_Testcase
         $this->assertEquals(
             'Cat1',
             $foundCustomers[0]->getCategory()
-            );
+        );
     }
     
     public function testCanFindMultipleCustomersByCategory() {
@@ -100,10 +106,10 @@ class CustomerRepositoryTest extends PHPUnit_Framework_Testcase
         $this->assertEquals(
             'Cat2',
             $foundCustomers[0]->getCategory()
-            );
+        );
         $this->assertEquals(
             'Cat2',
             $foundCustomers[1]->getCategory()
-            );
+        );
     }
 }

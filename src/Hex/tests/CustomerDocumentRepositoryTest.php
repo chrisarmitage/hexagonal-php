@@ -1,8 +1,10 @@
 <?php
 
+namespace Hex\Tests;
+
 use \Mockery as M;
 
-class CustomerDocumentRepositoryTest extends PHPUnit_Framework_Testcase
+class CustomerDocumentRepositoryTest extends \PHPUnit_Framework_Testcase
 {
     protected $mockRepository;
     
@@ -20,23 +22,27 @@ class CustomerDocumentRepositoryTest extends PHPUnit_Framework_Testcase
     }
     
     protected function setUp() {
-        $customerDocumentData = json_decode(json_encode(array(
-            array(
-                'reference' => 'Ref1',
-                'type' => '1',
-                'path' => '/tmp/tmp.pdf',
-            ),
-            array(
-                'reference' => 'Ref2',
-                'type' => '2',
-                'path' => '/tmp/tmp.pdf',
-            ),
-            array(
-                'reference' => 'Ref2',
-                'type' => '2',
-                'path' => '/tmp/tmp.pdf',
-            ),
-        )));
+        $customerDocumentData = json_decode(
+            json_encode(
+                array(
+                    array(
+                        'reference' => 'Ref1',
+                        'type' => '1',
+                        'path' => '/tmp/tmp.pdf',
+                    ),
+                    array(
+                        'reference' => 'Ref2',
+                        'type' => '2',
+                        'path' => '/tmp/tmp.pdf',
+                    ),
+                    array(
+                        'reference' => 'Ref2',
+                        'type' => '2',
+                        'path' => '/tmp/tmp.pdf',
+                    ),
+                )
+            )
+        );
         
         foreach ($customerDocumentData as $key => $data) {
             $customerDocument[$key] = M::mock('\Hex\Domain\CustomerDocument');
@@ -69,7 +75,7 @@ class CustomerDocumentRepositoryTest extends PHPUnit_Framework_Testcase
         );
     }
     
-    public function testCanFindMultipleDocumentsByReference() {        
+    public function testCanFindMultipleDocumentsByReference() {
         $foundCustomerDocuments = $this->mockRepository->findByReference('Ref2');
         $this->assertCount(2, $foundCustomerDocuments);
         $this->assertEquals(
@@ -87,7 +93,7 @@ class CustomerDocumentRepositoryTest extends PHPUnit_Framework_Testcase
         );
     }
     
-    public function testCanFindMultipleDocumentsByType() {  
+    public function testCanFindMultipleDocumentsByType() {
         $foundCustomerDocuments = $this->mockRepository->findByDocumentType('2');
         $this->assertCount(2, $foundCustomerDocuments);
         $this->assertEquals(
@@ -95,5 +101,4 @@ class CustomerDocumentRepositoryTest extends PHPUnit_Framework_Testcase
             $foundCustomerDocuments[0]->getDocumentType()
         );
     }
-    
 }
