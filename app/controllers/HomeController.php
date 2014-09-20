@@ -2,26 +2,28 @@
 
 class HomeController extends BaseController
 {
+    protected $commandBus;
+    protected $dispatcher;
+    protected $customerRepository;
+    
     public function showWelcome() {
-        return "EOL";
+        return View::make('hello');
     }
     
     public function __construct(
             \Hex\Application\SimpleCommandBus $commandBus,
-            \Hex\Application\Dispatcher $dispatcher) {
+            \Hex\Application\Dispatcher $dispatcher,
+            \Hex\Application\CustomerRepository $customerRepository
+        ) {
         $this->commandBus = $commandBus;
         $this->dispatcher = $dispatcher;
+        $this->customerRepository = $customerRepository;
     }
     
     public function addInvoicesToAllCustomers() {
         echo "Call Started<hr />";
         
-        $customerRepository = new \Hex\Application\CustomerRepository(
-            new \Hex\Application\CustomerGateway(), 
-            new \Hex\Application\CustomerFactory()
-        );
-        
-        $allCustomers = $customerRepository->findAll();
+        $allCustomers = $this->customerRepository->findAll();
         
         $documentType = 1;
         // Use a PDF generator
@@ -53,12 +55,7 @@ class HomeController extends BaseController
     public function addNoticesByCategory($category) {
         echo "Call Started<hr />";
         
-        $customerRepository = new \Hex\Application\CustomerRepository(
-            new \Hex\Application\CustomerGateway(), 
-            new \Hex\Application\CustomerFactory()
-        );
-        
-        $customers = $customerRepository->findByCategory($category);
+        $customers = $this->customerRepository->findByCategory($category);
         
         $documentType = 1;
         // Use a PDF generator
