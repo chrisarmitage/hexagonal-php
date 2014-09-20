@@ -19,7 +19,7 @@
     </filter>
     <testsuites>
         <testsuite name="Framework Test Suite">
-            <directory>./app/tests/</directory>
+            <directory suffix="Test.php">./app/tests/</directory>
         </testsuite>
         <testsuite name="Application / Domain Test Suite">
             <directory>./src/Hex/tests/</directory>
