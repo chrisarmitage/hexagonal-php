@@ -33,6 +33,9 @@ class CustomerDocumentTest extends PHPUnit_Framework_Testcase
      */
     public function testThrowsDomainExceptionOnInvalidBookingReference() {
         $customerDocument = new \Hex\Domain\CustomerDocument('', '2', '3');
+        
+        // Never run, used to supress `Unused variable` warnings
+        $this->assertNull($customerDocument);
     }
     
     /**
@@ -41,6 +44,9 @@ class CustomerDocumentTest extends PHPUnit_Framework_Testcase
      */
     public function testThrowsDomainExceptionOnInvalidDocumentType() {
         $customerDocument = new \Hex\Domain\CustomerDocument('1', '', '3');
+        
+        // Never run, used to supress `Unused variable` warnings
+        $this->assertNull($customerDocument);
     }
     
     /**
@@ -49,5 +55,8 @@ class CustomerDocumentTest extends PHPUnit_Framework_Testcase
      */
     public function testThrowsDomainExceptionOnInvalidDocumentPath() {
         $customerDocument = new \Hex\Domain\CustomerDocument('1', '2', '');
+        
+        // Never run, used to supress `Unused variable` warnings
+        $this->assertNull($customerDocument);
     }
 }
