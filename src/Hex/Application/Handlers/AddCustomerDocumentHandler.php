@@ -32,7 +32,7 @@ class AddCustomerDocumentHandler implements \Hex\Application\Interfaces\Handler
             $command->getDocumentPath()
         );
         
-        $lastInsertID = $this->repository->add($customerDocument);
+        $this->repository->add($customerDocument);
         
         $documentPath = $this->documentStorage->addToFolder($customerDocument);
         
@@ -41,10 +41,6 @@ class AddCustomerDocumentHandler implements \Hex\Application\Interfaces\Handler
         $customerDocument->raise(new \Hex\Domain\Events\CustomerDocumentAddedEvent($customerDocument));
         
         $customerDocument->raise(new \Hex\Domain\Events\CustomerDocumentFolderUpdatedEvent($customerDocument->getBookingReference()));
-        
-        //echo "Uploading record {$lastInsertID} / ";
-        //echo $this->repository->findByCustomerDocumentID($lastInsertID)->getBookingReference() . '<br />';
-        
         
         $this->dispatcher->dispatch($customerDocument->flushEvents());
     }

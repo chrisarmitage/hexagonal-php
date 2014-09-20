@@ -14,9 +14,6 @@ class Customer
     
     protected $category;
 
-    /**
-     * @TODO Add constraints, etc
-     */
     public function __construct($id, $reference, $name, $category) {
         $this->id = $id;
         $this->reference = $reference;

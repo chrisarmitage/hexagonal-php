@@ -23,7 +23,5 @@ class SimpleCommandBus implements \Hex\Domain\Interfaces\CommandBus
     
     public function resolveHandler($command) {
         return $this->container->make($this->inflector->getHandlerClass($command));
-        //$handlerName = $this->inflector->getHandlerClass($command);
-        //return new $handlerName;
     }
 }

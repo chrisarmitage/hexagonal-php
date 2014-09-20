@@ -19,17 +19,17 @@ Route::get('addNoticesByCategory/{category}', 'HomeController@addNoticesByCatego
 Route::get('customers/index', 'HomeController@indexCustomers');
 Route::get('customers/view/{reference}', 'HomeController@viewCustomer');
 
-Event::listen('customer_document.added', function($event)
+Event::listen('customer_document.added', function(\Hex\Domain\Interfaces\EventInterface $event)
 {
     echo "&nbsp;&nbsp;<strong>Event Fired</strong>: Document added for Booking {$event->getCustomerDocument()->getBookingReference()} (type {$event->getCustomerDocument()->getDocumentType()}, at {$event->getCustomerDocument()->getDocumentPath()})<br />";
 });
 
-Event::listen('customer_folder.updated', function($event)
+Event::listen('customer_folder.updated', function(\Hex\Domain\Interfaces\EventInterface $event)
 {
     echo "&nbsp;&nbsp;<strong>Event Fired</strong>: Customer folder updated {$event->getBookingReference()}<br />";
 });
 
-Event::listen('add_customer_documents.complete', function($event)
+Event::listen('add_customer_documents.complete', function(\Hex\Domain\Interfaces\EventInterface $event)
 {
     echo "&nbsp;&nbsp;<strong>Event Fired</strong>: Add Customer Documents completed - {$event->getNumberOfDocumentsAdded()} added<br />";
 });
