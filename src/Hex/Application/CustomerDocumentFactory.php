@@ -6,7 +6,7 @@ use \Hex\Domain\CustomerDocument as CustomerDocument;
 
 class CustomerDocumentFactory
 {
-    public function make($customerDocumentData) {
+    public function make(\StdClass $customerDocumentData) {
         $customerDocument = new CustomerDocument(
             $customerDocumentData->reference,
             $customerDocumentData->type,

@@ -20,7 +20,7 @@ class CustomerDocumentRepositoryTest extends PHPUnit_Framework_Testcase
     }
     
     protected function setUp() {
-        $customerDocumentData = array(
+        $customerDocumentData = json_decode(json_encode(array(
             array(
                 'reference' => 'Ref1',
                 'type' => '1',
@@ -36,14 +36,14 @@ class CustomerDocumentRepositoryTest extends PHPUnit_Framework_Testcase
                 'type' => '2',
                 'path' => '/tmp/tmp.pdf',
             ),
-        );
+        )));
         
         foreach ($customerDocumentData as $key => $data) {
             $customerDocument[$key] = M::mock('\Hex\Domain\CustomerDocument');
             $customerDocument[$key]->shouldReceive('getBookingReference')
-                ->andReturn($customerDocumentData[$key]['reference']);
+                ->andReturn($customerDocumentData[$key]->reference);
             $customerDocument[$key]->shouldReceive('getDocumentType')
-                ->andReturn($customerDocumentData[$key]['type']);
+                ->andReturn($customerDocumentData[$key]->type);
         }
         
         $gateway = M::mock('\Hex\Application\CustomerDocumentGateway');
