@@ -1,7 +1,7 @@
 <?php
 
-class TestCase extends Illuminate\Foundation\Testing\TestCase {
-
+class TestCase extends Illuminate\Foundation\Testing\TestCase
+{
 	/**
 	 * Creates the application.
 	 *
@@ -15,5 +15,18 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 		return require __DIR__.'/../../bootstrap/start.php';
 	}
+    
+    /**
+     * Overloads the testcase.
+     * 
+     * Allows `$this->get('/');` instead of `$this->call('GET', '/');`
+     */
+    public function __call($method, $args) {
+        if (in_array($method, ['get', 'post', 'put', 'patch', 'delete']))
+        {
+            return $this->call($method, $args[0]);
+        }
 
+        throw new BadMethodCallException;
+    }
 }
