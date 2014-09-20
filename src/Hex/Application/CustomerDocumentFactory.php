@@ -8,7 +8,7 @@ class CustomerDocumentFactory
 {
     public function make($customerDocumentData) {
         $customerDocument = new CustomerDocument(
-            $customerDocumentData->reference_fk,
+            $customerDocumentData->reference,
             $customerDocumentData->type,
             $customerDocumentData->path
         );

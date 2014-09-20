@@ -14,7 +14,7 @@ class CreateCustomerDocuments extends Migration {
 	{
 		Schema::create('customer_documents', function(Blueprint $table) {
             $table->increments('id');
-            $table->integer('reference_fk');
+            $table->integer('reference');
             $table->string('type');
             $table->string('path');
         });
