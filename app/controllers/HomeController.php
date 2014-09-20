@@ -83,4 +83,11 @@ class HomeController extends BaseController
         
         return '<hr />Call Completed</hr>';
     }
+    
+    public function viewCustomers() {
+        $customers = $this->customerRepository->findAll();
+        
+        return View::make('customers.index')
+            ->with('customers', $customers);
+    }
 }

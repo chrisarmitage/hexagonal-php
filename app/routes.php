@@ -16,6 +16,8 @@ Route::get('/', 'HomeController@showWelcome');
 Route::get('addInvoicesToAllCustomers', 'HomeController@addInvoicesToAllCustomers');
 Route::get('addNoticesByCategory/{category}', 'HomeController@addNoticesByCategory');
 
+Route::get('customers/index', 'HomeController@viewCustomers');
+
 Event::listen('customer_document.added', function($event)
 {
     echo "&nbsp;&nbsp;<strong>Event Fired</strong>: Document added for Booking {$event->getCustomerDocument()->getBookingReference()} (type {$event->getCustomerDocument()->getDocumentType()}, at {$event->getCustomerDocument()->getDocumentPath()})<br />";
