@@ -12,24 +12,25 @@ class CustomerDocument
     
     protected $documentPath;
     
-    /**
-     * Constraint: A booking reference must be present
-     * 
-     * @param string $bookingReference
-     */
-    public function setBookingReference($bookingReference) {
-        if ($bookingReference == '') {
+    public function __construct($bookingReference, $documentType, $documentPath) {
+        // Constraint: A booking reference must be present
+        if (empty($bookingReference)) {
             throw new \Hex\Domain\DomainException("Booking Reference cannot be empty");
         }
         
-        $this->bookingReference = $bookingReference;
+        // Constraint: A document must be present
+        if (empty($documentType)) {
+            throw new \Hex\Domain\DomainException("Document Type cannot be empty");
+        }
         
-        return $this;
-    }
-
-    public function setDocumentType($documentType) {
+        // Constraint: A document path must be present
+        if (empty($documentPath)) {
+            throw new \Hex\Domain\DomainException("Document Path cannot be empty");
+        }
+        
+        $this->bookingReference = $bookingReference;
         $this->documentType = $documentType;
-        return $this;
+        $this->documentPath = $documentPath;
     }
 
     public function setDocumentPath($documentPath) {
