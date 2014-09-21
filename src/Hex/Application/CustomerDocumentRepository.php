@@ -4,12 +4,8 @@ namespace Hex\Application;
 
 use \Hex\Domain\CustomerDocument as CustomerDocument;
 
-class CustomerDocumentRepository
-{
-    protected $gateway;
-    
-    protected $factory;
-    
+class CustomerDocumentRepository extends ARepository
+{   
     public function __construct(
         \Hex\Application\CustomerDocumentGateway $gateway,
         \Hex\Application\CustomerDocumentFactory $factory
@@ -62,14 +58,5 @@ class CustomerDocumentRepository
                 }
             )
         );
-    }
-    
-    public function findAll() {
-        $allCustomerDocumentsData = $this->gateway->retrieveAll();
-        $customerDocuments = array();
-        foreach ($allCustomerDocumentsData as $customerDocumentData) {
-            $customerDocuments[] = $this->factory->make($customerDocumentData);
-        }
-        return $customerDocuments;
     }
 }
