@@ -84,4 +84,32 @@ class FrameworkTest extends TestCase
         
         $this->get('addNoticesByCategory/CAT');
     }
+
+    public function testCustomerView() {
+        $customer = new \Hex\Domain\Customer('1', 'Ref', 'Cust Name', 'Cat');
+        $documents = array(
+            new \Hex\Domain\CustomerDocument('B1', '1', 'tmp/tmp1.pdf'),
+            new \Hex\Domain\CustomerDocument('B1', '2', 'tmp/tmp2.pdf'),
+        );
+        $customerRepository = M::mock('\Hex\Application\CustomerRepository');
+        $customerRepository
+            ->shouldReceive('findByReference')
+            ->once()
+            ->with('1')
+            ->andReturn(array($customer));
+        $this->app->instance('Hex\Application\CustomerRepository', $customerRepository);
+        
+        $customerDocumentRepository = M::mock('\Hex\Application\CustomerDocumentRepository');
+        $customerDocumentRepository
+            ->shouldReceive('findByReference')
+            ->once()
+            ->with('1')
+            ->andReturn($documents);
+        $this->app->instance('Hex\Application\CustomerDocumentRepository', $customerDocumentRepository);
+        
+        $this->get('customers/view/1');
+        
+        $this->assertViewHas('customer');
+        $this->assertViewHas('customerDocuments');
+    }
 }

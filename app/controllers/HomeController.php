@@ -94,7 +94,7 @@ class HomeController extends BaseController
     }
     
     public function viewCustomer($reference) {
-        $customerDocumentRepository = App::make('\Hex\Application\CustomerDocumentRepository');
+        $customerDocumentRepository = App::make('Hex\Application\CustomerDocumentRepository');
         $customers = $this->customerRepository->findByReference($reference);
         $customer = array_pop($customers);
         $customerDocuments = $customerDocumentRepository->findByReference($reference);
